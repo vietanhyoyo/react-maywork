@@ -36,13 +36,14 @@ const Constants = {
         // =====================================================================
         // Common color
         // =====================================================================
-        PRIMARY_COLOR: "#13CBD2",
+        PRIMARY_COLOR: "#15CDD3",
         PRIMARY_DARK_COLOR: "rgb(13, 142, 147)",
         BLACK_COLOR: "#000000",
-        BLUE_COLOR: "#0000FF",
+        BLUE_COLOR: "#3b82f6",
+        LIGHT_BLUE_COLOR: "#12B7BC",
         GRAY_COLOR: "#808080",
         GREEN_COLOR: "#008000",
-        LIGHTGRAY_COLOR: "#D3D3D3",
+        LIGHT_GRAY_COLOR: "#f9fafb",
         RED_COLOR: "#FF0000",
         WHITE_COLOR: "#FFFFFF",
 
@@ -67,6 +68,19 @@ const Constants = {
         AVATAR_SIZE: "80px",
         DEFAULT_FONTSIZE: "16px",
         DEFAULT_SPACING: "24px",
+
+        // =====================================================================
+        // Font size
+        // =====================================================================
+        FONT_SIZE_SMALL: 13,
+        FONT_SIZE_DEFAULT: 15,
+        FONT_SIZE_MEDIUM: 17,
+        FONT_SIZE_LARGE: 23,
+        FONT_SIZE_XLARGE: 27,
+        FONT_SIZE_XXLARGE: 31,
+
+        BOX_BORDER_RADIUS: 6,
+        BOX_SHADOW: 3,
     },
 
     /**
