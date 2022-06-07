@@ -1,6 +1,6 @@
 import moment from "moment";
 import Swal from "sweetalert2"
-import Constants from "@app/constants";
+import Constants from "src/constants"
 
 /**
  * Helpers.ts
@@ -344,6 +344,10 @@ const Helpers = {
         const brands: any[] = thisWindow?.navigator?.userAgentData?.brands || [];
         const indexOfCocCoc = brands?.findIndex(item => item.brand === Constants.COCCOC_BRAND_NAME);
         return indexOfCocCoc !== -1;
+    },
+
+    isLoggedIn: () => {
+        return sessionStorage.getItem(Constants.StorageKeys.ACCESS_TOKEN) !== null
     },
 
     formatDate: (value?: string | Date | number, format?: string): string => {
