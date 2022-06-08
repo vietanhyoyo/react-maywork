@@ -22,7 +22,8 @@ const Constants = {
     },
 
     ApiPath: {
-        SIGNIN: "/auth/signin"
+        SIGNIN: "/auth/signin",
+        USER_REPORT_TOTAL_TIME: "/userReport/total",
     },
 
     /**
