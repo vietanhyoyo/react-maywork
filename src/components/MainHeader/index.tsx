@@ -29,7 +29,7 @@ const StyledButton = styled(Button)({
     marginRight: 10,
     paddingBottom: 3,
 
-    color: Constants.Styles.BLUE_COLOR,
+    color: Constants.Styles.LIGHT_BLUE_COLOR,
     fontWeight: "bold",
     fontSize: Constants.Styles.FONT_SIZE_DEFAULT,
 
@@ -38,8 +38,18 @@ const StyledButton = styled(Button)({
     borderBottomColor: "transparent",
     "&:hover": {
         borderBottomColor: Constants.Styles.BLUE_COLOR,
+        color: Constants.Styles.BLUE_COLOR,
     }
 });
+
+const StyledMenuItem = styled(MenuItem)({
+    color: Constants.Styles.LIGHT_BLUE_COLOR,
+    fontSize: Constants.Styles.FONT_SIZE_DEFAULT,
+    fontWeight: "bold",
+    "&:hover": {
+        color: Constants.Styles.BLUE_COLOR,
+    }
+})
 
 const MainHeader = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -157,7 +167,10 @@ const MainHeader = () => {
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
                         onClick={handleOpenNavMenu}
-                        style={{ color: Constants.Styles.BLUE_COLOR, fontWeight: "bold", }}
+                        style={{
+                            color: Constants.Styles.LIGHT_BLUE_COLOR,
+                            fontWeight: "bold",
+                        }}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -178,15 +191,10 @@ const MainHeader = () => {
                         sx={{ display: { xs: "block", md: "none" } }}
                     >
                         {menu.map((menuItem) => (
-                            <MenuItem
+                            <StyledMenuItem
                                 key={menuItem.key}
                                 disableRipple
                                 onClick={() => navigate(menuItem.screenPath)}
-                                style={{
-                                    fontWeight: "bold",
-                                    color: Constants.Styles.BLUE_COLOR,
-                                    fontSize: Constants.Styles.FONT_SIZE_DEFAULT,
-                                }}
                             >
                                 <div className="d-flex justify-content-center">
                                     {renderMenuIcon(menuItem.screenPath)}
@@ -200,7 +208,7 @@ const MainHeader = () => {
                                         {menuItem.name}
                                     </Typography>
                                 </div>
-                            </MenuItem>
+                            </StyledMenuItem>
                         ))}
                     </Menu>
                </Box>
