@@ -22,7 +22,9 @@ const Constants = {
     },
 
     ApiPath: {
-        SIGNIN: "/auth/signin"
+        SIGNIN: "/auth/signin",
+        UPDATE_ACCOUNT: "/user/update",
+        UPDATE_PASSWORD: "/auth/changePass"
     },
 
     /**
@@ -87,7 +89,8 @@ const Constants = {
      * Storage keys
      */
     StorageKeys: {
-        ACCESS_TOKEN: "ACCESS_TOKEN"
+        ACCESS_TOKEN: "ACCESS_TOKEN",
+        USER_INFO: "USER_INFO"
     },
 
     COCCOC_BRAND_NAME: "CocCoc"

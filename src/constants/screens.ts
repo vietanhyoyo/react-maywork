@@ -6,6 +6,7 @@ const Screens = {
     REPORT: "/report",
     ABSENSE: "/absence",
     ACCOUNT: "/account",
+    UPDATE_ACCOUNT: "/update-account",
 
     // =========================================================================
     // Public

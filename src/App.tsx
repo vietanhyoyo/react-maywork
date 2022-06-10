@@ -8,6 +8,7 @@ import MainLayout from "./components/MainLayout";
 import ReportScreen from "./screens/report";
 import AbsenseScreen from "./screens/absense";
 import AccountScreen from "./screens/account";
+import UpdateAccountScreen from "./screens/account/updateAccountScreen";
 
 function App() {
     return (
@@ -63,6 +64,17 @@ function App() {
                         <PrivateRoute>
                             <MainLayout>
                                 <AccountScreen />
+                            </MainLayout>
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path={Screens.UPDATE_ACCOUNT}
+                    element={
+                        <PrivateRoute>
+                            <MainLayout>
+                                <UpdateAccountScreen />
                             </MainLayout>
                         </PrivateRoute>
                     }

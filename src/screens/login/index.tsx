@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Grid, Button, CircularProgress } from "@mui/material"
-import { useDispatch} from "react-redux"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router"
 
 import { IUserInfo } from "src/commons/interfaces"
@@ -13,10 +13,10 @@ import Screens from "src/constants/screens"
 import TextInput from "src/components/TextInput"
 
 interface SignInData {
-    account ?: string,
-    password ?: string,
-    errorAccount ?: string,
-    errorPassword ?: string
+    account?: string,
+    password?: string,
+    errorAccount?: string,
+    errorPassword?: string
 }
 
 const LoginScreen = () => {
@@ -61,6 +61,7 @@ const LoginScreen = () => {
                     phoneNumber: result.data.phoneNumber,
                     roleCode: result.data.roleCode
                 }
+                sessionStorage.setItem(Constants.StorageKeys.USER_INFO, JSON.stringify(userInfo))
                 dispatch(storeUserInfo(userInfo))
                 navigate(Screens.HOME)
             }
