@@ -17,56 +17,30 @@ function App() {
                     path="/"
                     element={
                         <PrivateRoute>
-                            <MainLayout>
-                                <HomeScreen />
-                            </MainLayout>
+                            <MainLayout />
                         </PrivateRoute>
                     }
-                />
+                >
+                    <Route
+                        path={Screens.HOME}
+                        element={<HomeScreen />}
+                    />
 
-                <Route
-                    path={Screens.HOME}
-                    element={
-                        <PrivateRoute>
-                            <MainLayout>
-                                <HomeScreen />
-                            </MainLayout>
-                        </PrivateRoute>
-                    }
-                />
+                    <Route
+                        path={Screens.REPORT}
+                        element={<ReportScreen />}
+                    />
 
-                <Route
-                    path={Screens.REPORT}
-                    element={
-                        <PrivateRoute>
-                            <MainLayout>
-                                <ReportScreen />
-                            </MainLayout>
-                        </PrivateRoute>
-                    }
-                />
+                    <Route
+                        path={Screens.ABSENSE}
+                        element={<AbsenseScreen />}
+                    />
 
-                <Route
-                    path={Screens.ABSENSE}
-                    element={
-                        <PrivateRoute>
-                            <MainLayout>
-                                <AbsenseScreen />
-                            </MainLayout>
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
-                    path={Screens.ACCOUNT}
-                    element={
-                        <PrivateRoute>
-                            <MainLayout>
-                                <AccountScreen />
-                            </MainLayout>
-                        </PrivateRoute>
-                    }
-                />
+                    <Route
+                        path={Screens.ACCOUNT}
+                        element={<AccountScreen />}
+                    />
+                </Route>
 
                 <Route path={Screens.LOGIN} element={<LoginScreen />} />
 

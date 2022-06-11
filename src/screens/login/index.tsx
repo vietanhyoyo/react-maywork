@@ -2,15 +2,15 @@ import { useState } from "react"
 import { Grid, Button, CircularProgress } from "@mui/material"
 import { useDispatch} from "react-redux"
 import { useNavigate } from "react-router"
-
 import { IUserInfo } from "src/commons/interfaces"
 import { storeUserInfo } from "src/store/slice/userInfo.slice"
 import APIProcessor from "src/services/apiProcessor"
 import Constants from "src/constants"
 import Helpers from "src/commons/helpers"
-import Logo from "src/assets/logo.png"
+import Resources from "src/commons/resources"
 import Screens from "src/constants/screens"
 import TextInput from "src/components/TextInput"
+import Strings from "src/constants/strings"
 
 interface SignInData {
     account ?: string,
@@ -73,7 +73,7 @@ const LoginScreen = () => {
                 updateSigninData({ errorPassword: error.message })
             }
             else {
-                Helpers.showAlert("Đã xảy ra lỗi, vui lòng thử lại")
+                Helpers.showAlert(Strings.Message.COMMON_ERROR, "error")
             }
         }
         setIsLoading(false)
@@ -85,7 +85,7 @@ const LoginScreen = () => {
                 <form onSubmit={onSubmit} className="d-flex flex-column justify-content-center align-items-center">
                     <img
                         style={{ width: "50%", height: "50%" }}
-                        src={Logo}
+                        src={Resources.Images.APP_LOGO}
                         alt="logo"
                     />
 
@@ -94,8 +94,8 @@ const LoginScreen = () => {
                         containerClassName="mt-4"
                         errorMessage={signInData.errorAccount}
                         onChangeValue={onChangeAccount}
-                        placeholder="Tên đăng nhập/Email"
-                        label="Tên đăng nhập/Email"
+                        placeholder={Strings.Auth.USER_NAME + "/" + Strings.Auth.EMAIL}
+                        label={Strings.Auth.USER_NAME + "/" + Strings.Auth.EMAIL}
                         isOutline
                     />
 
@@ -105,8 +105,8 @@ const LoginScreen = () => {
                         errorMessage={signInData.errorPassword}
                         onChangeValue={onChangePassword}
                         secure
-                        placeholder="Mật khẩu"
-                        label="Mật khẩu"
+                        placeholder={Strings.Auth.PASSWORD}
+                        label={Strings.Auth.PASSWORD}
                         isOutline
                     />
 
@@ -124,7 +124,7 @@ const LoginScreen = () => {
                                 color="inherit"
                             />
                         )}
-                        <span>Đăng nhập</span>
+                        <span>{Strings.Auth.SIGN_IN}</span>
                     </Button>
 
                     <Button
@@ -132,7 +132,7 @@ const LoginScreen = () => {
                         className="mt-2 w-100"
                         style={{ fontWeight: "bold", textTransform: "none" }}
                     >
-                        Quên mật khẩu
+                        {Strings.Auth.FORGOT_PASSWORD}
                     </Button>
                 </form>
             </Grid>

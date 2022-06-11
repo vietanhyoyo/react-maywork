@@ -24,3 +24,23 @@ export interface IUserInfo {
     phoneNumber?: string,
     roleCode?: number
 }
+
+export interface IUserReport {
+    id?: string,
+    status?: number,
+    userId?: string,
+    workingDate?: number,
+    description?: string,
+    startTime?: number,
+    endTime?: number,
+    actualTime?: number,
+    effectiveTime?: number,
+    isDelete?: number,
+    organizationId?: string,
+    teamId?: string,
+
+    createTime: number,
+    createUser?: string,
+    updateTime?: number,
+    updateUser?: string,
+}

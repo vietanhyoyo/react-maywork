@@ -33,7 +33,7 @@ const reportTimeHeaderStyle: CSSProperties = {
     width: "90%",
 
     color: Constants.Styles.WHITE_COLOR,
-    backgroundColor: Constants.Styles.LIGHT_BLUE_COLOR,
+    backgroundColor: Constants.Styles.OCEAN_BLUE_COLOR,
     borderRadius: 5,
 
     fontWeight: "bold",
@@ -42,7 +42,7 @@ const reportTimeHeaderStyle: CSSProperties = {
 
 const reportTimeStyle: CSSProperties = {
     marginTop: 20,
-    color: Constants.Styles.LIGHT_BLUE_COLOR,
+    color: Constants.Styles.OCEAN_BLUE_COLOR,
     fontWeight: "bold",
     fontSize: 50,
 }
@@ -97,7 +97,7 @@ const HomeScreen = () => {
 
     return (
         <Grid
-            container spacing={2} className="my-5"
+            container spacing={2} className="mt-3 mb-5"
             display="flex" justifyContent="center" alignItems="center"
         >   
             <DateRangePicker
@@ -121,7 +121,7 @@ const HomeScreen = () => {
 
                         <Typography textAlign="center" component="span" style={reportTimeStyle}>
                             {isLoading ? (
-                                <Loading color={Constants.Styles.LIGHT_BLUE_COLOR} />
+                                <Loading color={Constants.Styles.OCEAN_BLUE_COLOR} />
                             ) : (
                                 totalReportTime.totalActualTime
                             )}
@@ -140,7 +140,7 @@ const HomeScreen = () => {
 
                         <Typography textAlign="center" component="span" style={reportTimeStyle}>
                             {isLoading ? (
-                                <Loading color={Constants.Styles.LIGHT_BLUE_COLOR} />
+                                <Loading color={Constants.Styles.OCEAN_BLUE_COLOR} />
                             ) : (
                                 totalReportTime.totalAbsenceTime
                             )}

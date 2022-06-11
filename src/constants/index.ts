@@ -23,7 +23,11 @@ const Constants = {
 
     ApiPath: {
         SIGNIN: "/auth/signin",
+
+        // User report
         USER_REPORT_TOTAL_TIME: "/userReport/total",
+        FILTER_USER_REPORT: "/userReport/filter",
+        DELETE_USER_REPORT: "/userReport/delete",
     },
 
     /**
@@ -41,11 +45,12 @@ const Constants = {
         PRIMARY_DARK_COLOR: "rgb(13, 142, 147)",
         BLACK_COLOR: "#000000",
         BLUE_COLOR: "#3b82f6",
+        OCEAN_BLUE_COLOR: "#174291",
         LIGHT_BLUE_COLOR: "#12B7BC",
         GRAY_COLOR: "#808080",
-        GREEN_COLOR: "#008000",
         LIGHT_GRAY_COLOR: "#f9fafb",
-        RED_COLOR: "#FF0000",
+        GREEN_COLOR: "#008000",
+        RED_COLOR: "#dc2626",
         WHITE_COLOR: "#FFFFFF",
 
         // New - Analysis - Processing - Processed - Cancelled - Close
@@ -80,6 +85,7 @@ const Constants = {
         FONT_SIZE_XLARGE: 27,
         FONT_SIZE_XXLARGE: 31,
 
+        CARD_BORDER_RADIUS: 3,
         BOX_BORDER_RADIUS: 6,
         BOX_SHADOW: 3,
     },
@@ -90,6 +96,8 @@ const Constants = {
     StorageKeys: {
         ACCESS_TOKEN: "ACCESS_TOKEN"
     },
+
+    DefaultLanguage: "vi",
 
     COCCOC_BRAND_NAME: "CocCoc"
 };
