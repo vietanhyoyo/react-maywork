@@ -143,7 +143,7 @@ const MainLayout = (props: IProps) => {
                 <Typography
                     textAlign="center"
                     style={{
-                        color: "#E5145A",
+                        color: "#EA6713",
                         fontWeight: "bold",
                         fontSize: Constants.Styles.FONT_SIZE_LARGE,
                     }}
