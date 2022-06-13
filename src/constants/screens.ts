@@ -12,7 +12,8 @@ const Screens = {
     // =========================================================================
     // Public
     // =========================================================================
-    LOGIN: "/login"
+    LOGIN: "/login",
+    FORGOT_PASSWORD: "/forgot-password",
 };
 
 export default Screens;

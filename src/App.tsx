@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomeScreen from "./screens/home";
 import LoginScreen from "./screens/login";
+import ForgotPasswordScreen from "./screens/login/forgotPassword";
 import PrivateRoute from "./components/PrivateRoute";
 import Screens from "./constants/screens";
 import MainLayout from "./components/MainLayout";
@@ -55,6 +56,7 @@ function App() {
                 </Route>
 
                 <Route path={Screens.LOGIN} element={<LoginScreen />} />
+                <Route path={Screens.FORGOT_PASSWORD} element={<ForgotPasswordScreen />} />
 
                 <Route
                     path="*"
