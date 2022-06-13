@@ -86,6 +86,21 @@ const Constants = {
     },
 
     /**
+     * Regex Expression
+     */
+     RegExp: {
+        /** https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript */
+        EMAIL_ADDRESS: new RegExp(`/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@`
+            + `((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/`),
+        NEW_EMAIL_ADDRESS: new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+        /** https://gist.github.com/HarishChaudhari/0dd5514ce430991a1b1b8fa04e8b72a4 */
+        PASSWORD: new RegExp(`/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/`),
+        // PHONE_NUMBER: new RegExp(`/^(09|01|08|03|07|05[0-9])+([0-9]{8,9})$/`),
+        // PHONE_NUMBER: new RegExp(`/^0(1\d{9}|9\d{8})$/`),
+        PHONE_NUMBER: new RegExp(/^(?:0)?([1|3|5|7|8|9]{1})?([0-9]{8})$/),
+    },
+
+    /**
      * Storage keys
      */
     StorageKeys: {

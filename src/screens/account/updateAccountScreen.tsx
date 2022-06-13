@@ -2,19 +2,17 @@ import React from "react";
 import {
     createTheme,
     ThemeProvider
-}
-    from "@mui/material/styles";
+} from "@mui/material/styles";
 import {
     Box, Grid, Container,
     FormControl, Typography,
-    Paper, TextField, Button,
+    Paper, Button,
     Alert
 } from "@mui/material";
 import Constants from "src/constants";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { IUserInfo } from "src/commons/interfaces";
-import APIProcessor from "src/services/apiProcessor";
 import TextInput from "src/components/TextInput"
 import AccountService from "src/services/account.service";
 
@@ -28,23 +26,20 @@ const mdTheme = createTheme({
 
 const accountService = new AccountService()
 
-
 const UpdateAccountScreen = () => {
     //get redux
     const userRedux = useSelector((state: RootState) => state.userInfo.value);
+    
     //get user storage
     let userStorage: IUserInfo;
     const session = sessionStorage.getItem(Constants.StorageKeys.USER_INFO);
-    if (session !== null) {
-        userStorage = JSON.parse(session);
-    }
+    if (session !== null) userStorage = JSON.parse(session); 
     //get access token
     const accessToken = sessionStorage.getItem(Constants.StorageKeys.ACCESS_TOKEN);
+    
     //account state
     const [account, setAccount] = React.useState(() => {
-        if (session !== null) {
-            userStorage = JSON.parse(session);
-        }
+        if (session !== null) userStorage = JSON.parse(session);
         return {
             id: userStorage.id || userRedux.id || "",
             email: userStorage.email || userRedux.email || "",
@@ -59,12 +54,12 @@ const UpdateAccountScreen = () => {
     })
     //validata email
     const validateEmail = (email: string) => {
-        const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+        const regexp = Constants.RegExp.NEW_EMAIL_ADDRESS;
         return regexp.test(email);
     };
     //validate phoneNumber
     const validatePhone = (phone: string) => {
-        const regexp = new RegExp(/^(?:0)?([1|3|5|7|8|9]{1})?([0-9]{8})$/);
+        const regexp = Constants.RegExp.PHONE_NUMBER;
         return regexp.test(phone);
     }
     //error state
@@ -87,6 +82,7 @@ const UpdateAccountScreen = () => {
         }
         return check;
     }
+
     //check repassword
     const blurRePassword = () => {
         if (password.new !== "") {
@@ -94,6 +90,7 @@ const UpdateAccountScreen = () => {
                 setError((prev: any) => ({ ...prev, rePassword: "Mật khẩu nhập lại không khớp!" }))
         }
     }
+
     //validate password
     const validatePassword = () => {
         let check = true;
@@ -107,10 +104,10 @@ const UpdateAccountScreen = () => {
         }
         return check;
     }
+
     //submit password
     const submitPassword = async () => {
         if (validatePassword()) {
-
             try {
                 const result = await accountService.updatePassword(
                     account.id,
@@ -127,7 +124,6 @@ const UpdateAccountScreen = () => {
             }
         }
         else alert("Đổi thất bại!");
-
     }
 
     //submit infomation email and phoneNumber
@@ -170,23 +166,25 @@ const UpdateAccountScreen = () => {
                                 <Typography color="primary" >Thông tin tài khoản</Typography>
                                 <FormControl sx={{ width: "100%" }} >
                                     <Box sx={{ mt: "30px", width: "100%" }}>
-                                        <TextField
+                                        <TextInput
+                                            autoComplete="off"
+                                            type="text"
                                             label="Email"
-                                            variant="outlined"
-                                            sx={{ width: "100%" }}
+                                            isOutline
                                             value={account.email}
-                                            onChange={(e: any) => setAccount((prev: any) => ({ ...prev, email: e.target.value }))}
+                                            onChangeValue={(value: any) => setAccount((prev: any) => ({ ...prev, email: value }))}
                                             onFocus={() => setError((prev: any) => ({ ...prev, email: "" }))}
                                         />
                                     </Box>
                                     {error.email && <Alert sx={{ mt: "10px" }} severity="error">{error.email}</Alert>}
                                     <Box sx={{ mt: "30px", width: "100%" }}>
-                                        <TextField
+                                        <TextInput
+                                            autoComplete="off"
+                                            type="text"
                                             label="Số điện thoại"
-                                            variant="outlined"
-                                            sx={{ width: "100%" }}
+                                            isOutline
                                             value={account.phoneNumber}
-                                            onChange={(e: any) => setAccount((prev: any) => ({ ...prev, phoneNumber: e.target.value }))}
+                                            onChangeValue={(value: any) => setAccount((prev: any) => ({ ...prev, phoneNumber: value }))}
                                             onFocus={() => setError((prev: any) => ({ ...prev, phoneNumber: "" }))}
                                         />
                                     </Box>
@@ -195,9 +193,7 @@ const UpdateAccountScreen = () => {
                                         <Button
                                             variant="contained"
                                             onClick={submitInfomation}
-                                        >
-                                            CẬP NHẬT
-                                        </Button>
+                                        >CẬP NHẬT</Button>
                                     </Box>
                                 </FormControl>
                             </Box>
@@ -210,35 +206,35 @@ const UpdateAccountScreen = () => {
                                 <FormControl sx={{ width: "100%" }} >
                                     <Box sx={{ mt: "30px", width: "100%" }}>
                                         <TextInput
-                                            containerClassName="mt-4"
                                             onChangeValue={(value: any) => setPassword((prev: any) => ({ ...prev, old: value }))}
                                             secure
                                             placeholder=""
                                             label="Mật khẩu cũ"
                                             isOutline
                                             value={password.old}
+                                            autoComplete="off"
                                         />
                                     </Box>
                                     <Box sx={{ mt: "30px", width: "100%" }}>
-                                        <TextField
+                                        <TextInput
                                             type="password"
                                             label="Mật khẩu mới"
-                                            variant="outlined"
                                             value={password.new}
-                                            sx={{ width: "100%" }}
-                                            onChange={(e: any) => setPassword((prev: any) => ({ ...prev, new: e.target.value }))}
+                                            isOutline
+                                            onChangeValue={(value: any) => setPassword((prev: any) => ({ ...prev, new: value }))}
+                                            autoComplete="off"
                                         />
                                     </Box>
                                     <Box sx={{ mt: "30px", width: "100%" }}>
-                                        <TextField
+                                        <TextInput
                                             type="password"
                                             label="Nhập lại mật khẩu mới"
-                                            variant="outlined"
+                                            isOutline
                                             value={password.reNew}
-                                            sx={{ width: "100%" }}
-                                            onChange={(e: any) => setPassword((prev: any) => ({ ...prev, reNew: e.target.value }))}
+                                            onChangeValue={(value: any) => setPassword((prev: any) => ({ ...prev, reNew: value }))}
                                             onFocus={() => setError((prev: any) => ({ ...prev, rePassword: "" }))}
                                             onBlur={blurRePassword}
+                                            autoComplete="off"
                                         />
                                         {error.rePassword && <Alert sx={{ mt: "10px" }} severity="error">{error.rePassword}</Alert>}
                                     </Box>
@@ -246,9 +242,7 @@ const UpdateAccountScreen = () => {
                                         <Button
                                             variant="contained"
                                             onClick={submitPassword}
-                                        >
-                                            THAY ĐỔI
-                                        </Button>
+                                        >THAY ĐỔI</Button>
                                     </Box>
                                 </FormControl>
                             </Box>
