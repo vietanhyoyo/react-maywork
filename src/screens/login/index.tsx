@@ -87,6 +87,10 @@ const LoginScreen = () => {
         setIsLoading(false);
     };
 
+    const onClickForgotPassword = () =>{
+        navigate(Screens.FORGOT_PASSWORD);
+    }
+
     return (
         <Grid container justifyContent="center" alignItems="center" style={{ height: "100vh" }}>
             <Grid item xs={12} md={4} className="mx-4">
@@ -139,6 +143,7 @@ const LoginScreen = () => {
                         variant="text"
                         className="mt-2 w-100"
                         style={{ fontWeight: "bold", textTransform: "none" }}
+                        onClick={onClickForgotPassword}
                     >
                         {Strings.Auth.FORGOT_PASSWORD}
                     </Button>
