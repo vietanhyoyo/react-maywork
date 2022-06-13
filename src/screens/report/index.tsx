@@ -16,12 +16,17 @@ import {
     EditRounded as EditRoundedIcon,
 } from "@mui/icons-material"
 import { CSSProperties, useEffect, useState } from "react"
+import { createSearchParams, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { storeDateRange } from "src/store/slice/dateRangeFilter.slice"
+import { RootState } from "src/store"
 import Constants from "src/constants"
 import DateRangePicker from "src/components/DateRangePicker"
 import Helpers from "src/commons/helpers"
 import Loading from "src/components/Loading"
 import UserReportService from "src/services/user-report.service"
 import Strings from "src/constants/strings"
+import Screens from "src/constants/screens"
 import { IUserReport } from "src/commons/interfaces"
 
 const tableHeadStyle: CSSProperties = {
@@ -37,12 +42,12 @@ const tableCellStyle: CSSProperties = {
 
 const userReportService = new UserReportService();
 const ReportScreen = () => {
-    const dateNow = new Date();
-    const firstDay = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
-    const lastDay = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 0);
+    const navigate = useNavigate()
 
-    const [startDate, setStartDate] = useState<number>(firstDay.getTime() / 1000);
-    const [endDate, setEndDate] = useState<number>(lastDay.getTime() / 1000);
+    const dispatch = useDispatch();
+    const initialDateRange = useSelector((state: RootState) => state.reportDateRange);
+    const [startDate, setStartDate] = useState<number>(initialDateRange.startDate || new Date().getTime());
+    const [endDate, setEndDate] = useState<number>(initialDateRange.endDate || new Date().getTime());
 
     const [isLoading, setIsLoading] = useState(false)
     const [userReports, setUserReports] = useState<IUserReport[]>([])
@@ -73,6 +78,7 @@ const ReportScreen = () => {
         filterUserReport(startDate, endDate);
         setStartDate(startDate);
         setEndDate(endDate);
+        dispatch(storeDateRange({ startDate, endDate }));
     }
 
     return (
@@ -174,7 +180,16 @@ const ReportScreen = () => {
 
                                             <TableCell style={tableCellStyle} align="right">
                                                 <Tooltip title={<span style={tooltipStyle}>{Strings.Common.EDIT}</span>}>
-                                                    <IconButton>
+                                                    <IconButton onClick={() => {
+                                                        if (userReport.id) {
+                                                            navigate({
+                                                                pathname: Screens.UPDATE_REPORT,
+                                                                search: createSearchParams({
+                                                                    id: userReport.id
+                                                                }).toString()
+                                                            })
+                                                        }
+                                                    }}>
                                                         <EditRoundedIcon
                                                             fontSize={iconSize}
                                                             style={{ color: Constants.Styles.OCEAN_BLUE_COLOR }}

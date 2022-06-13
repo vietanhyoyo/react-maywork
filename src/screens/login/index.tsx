@@ -13,47 +13,46 @@ import TextInput from "src/components/TextInput"
 import Strings from "src/constants/strings"
 
 interface SignInData {
-    account ?: string,
-    password ?: string,
-    errorAccount ?: string,
-    errorPassword ?: string
+    account?: string;
+    password?: string;
+    errorAccount?: string;
+    errorPassword?: string;
 }
 
 const LoginScreen = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(false)
-    const [signInData, setSignInData] = useState<SignInData>({})
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [signInData, setSignInData] = useState<SignInData>({});
     const updateSigninData = (newState: SignInData) => {
         setSignInData((prevState) => ({
             ...prevState,
-            ...newState
-        }))
-    }
+            ...newState,
+        }));
+    };
 
     const onChangeAccount = (value: string) => {
-        updateSigninData({ account: value })
-    }
+        updateSigninData({ account: value });
+    };
 
     const onChangePassword = (value: string) => {
-        updateSigninData({ password: value })
-    }
+        updateSigninData({ password: value });
+    };
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        setIsLoading(true)
-        updateSigninData({ errorAccount: undefined, errorPassword: undefined })
+        setIsLoading(true);
+        updateSigninData({ errorAccount: undefined, errorPassword: undefined });
         try {
-            event.preventDefault()
+            event.preventDefault();
             const result = await APIProcessor.post({
                 path: Constants.ApiPath.SIGNIN,
                 data: {
                     account: signInData.account,
-                    password: signInData.password
-                }
-            })
+                    password: signInData.password,
+                },
+            });
 
             if (result.data && result.data.accessToken) {
-                sessionStorage.setItem(Constants.StorageKeys.ACCESS_TOKEN, result.data.accessToken)
                 const userInfo: IUserInfo = {
                     id: result.data.id,
                     userName: result.data.userName,
@@ -61,6 +60,15 @@ const LoginScreen = () => {
                     phoneNumber: result.data.phoneNumber,
                     roleCode: result.data.roleCode
                 }
+                
+                sessionStorage.setItem(
+                    Constants.StorageKeys.USER_INFO,
+                    Helpers.ensureString(userInfo)
+                );
+                sessionStorage.setItem(
+                    Constants.StorageKeys.ACCESS_TOKEN,
+                    result.data.accessToken
+                )
                 dispatch(storeUserInfo(userInfo))
                 navigate(Screens.HOME)
             }
@@ -76,8 +84,8 @@ const LoginScreen = () => {
                 Helpers.showAlert(Strings.Message.COMMON_ERROR, "error")
             }
         }
-        setIsLoading(false)
-    }
+        setIsLoading(false);
+    };
 
     return (
         <Grid container justifyContent="center" alignItems="center" style={{ height: "100vh" }}>
@@ -140,4 +148,4 @@ const LoginScreen = () => {
     )
 }
 
-export default LoginScreen
+export default LoginScreen;

@@ -4,6 +4,8 @@ const Screens = {
     // =========================================================================
     HOME: "/home",
     REPORT: "/report",
+    CREATE_REPORT: "/report/create",
+    UPDATE_REPORT: "/report/update",
     ABSENSE: "/absence",
     ACCOUNT: "/account",
 

@@ -6,6 +6,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import Screens from "./constants/screens";
 import MainLayout from "./components/MainLayout";
 import ReportScreen from "./screens/report";
+import CreateReportScreen from "./screens/report/createReport";
+import UpdateReportScreen from "./screens/report/updateReport";
 import AbsenseScreen from "./screens/absense";
 import AccountScreen from "./screens/account";
 
@@ -29,6 +31,16 @@ function App() {
                     <Route
                         path={Screens.REPORT}
                         element={<ReportScreen />}
+                    />
+
+                    <Route
+                        path={Screens.CREATE_REPORT}
+                        element={<CreateReportScreen />}
+                    />
+                    
+                    <Route
+                        path={Screens.UPDATE_REPORT}
+                        element={<UpdateReportScreen />}
                     />
 
                     <Route
