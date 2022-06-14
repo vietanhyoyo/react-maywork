@@ -12,6 +12,16 @@ interface IProps {
     onChangeValue?: (timestamp: number | null) => void;
 }
 
+class OverriddenAdapterDateFns extends AdapterDateFns {
+    constructor() {
+        super({ locale: vi });
+    }
+
+    getWeekdays = () => {
+        return ["H", "B", "T", "N", "S", "B", "CN"]
+    }
+}
+
 const DatePicker = (props: IProps) => {
     const [dateValue, setDateValue] = useState<Date | null>(
         props.defaultValue
@@ -29,7 +39,7 @@ const DatePicker = (props: IProps) => {
     }
     
     return (
-        <LocalizationProvider adapterLocale={vi} dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={OverriddenAdapterDateFns}>
             <MuiDatePicker
                 label={props.label}
                 value={dateValue}
