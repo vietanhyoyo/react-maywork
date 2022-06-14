@@ -1,21 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import Helpers from "src/commons/helpers";
 
 export interface IDateRangeFilter {
     startDate?: number;
     endDate?: number;
 }
 
-const dateNow = new Date();
-
-const firstDay = new Date(
-    dateNow.getFullYear(),
-    dateNow.getMonth(), 1
-).getTime() / 1000;
-
-const lastDay = new Date(
-    dateNow.getFullYear(),
-    dateNow.getMonth() + 1, 0
-).getTime() / 1000;
+const firstDay = Helpers.firstDayOfMonthUnixTime();
+const lastDay = Helpers.lastDayOfMonthUnixTime();
 
 const initialState: IDateRangeFilter = {
     startDate: firstDay,

@@ -147,6 +147,36 @@ const Helpers = {
         return 0;
     },
 
+    firstDayOfMonthUnixTime: (date?: Date): number => {
+        let dateNow = new Date();
+        if (!Helpers.isNullOrEmpty(date)) {
+            dateNow = date;
+        }
+
+        const firstDay = new Date(
+            dateNow.getFullYear(),
+            dateNow.getMonth(),
+            1
+        ).getTime() / 1000;
+
+        return firstDay;
+    },
+
+    lastDayOfMonthUnixTime: (date?: Date): number => {
+        let dateNow = new Date();
+        if (!Helpers.isNullOrEmpty(date)) {
+            dateNow = date;
+        }
+
+        const lastDay = new Date(
+            dateNow.getFullYear(),
+            dateNow.getMonth() + 1,
+            0
+        ).getTime() / 1000;
+
+        return lastDay;
+    },
+
     fromNow: (date: number | Date): string => {
         return moment(date).fromNow();
     },

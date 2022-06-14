@@ -1,0 +1,19 @@
+.reportTimeHeader {
+    position: absolute;
+    top: 0;
+    margin-top: 14px;
+    padding: 6px 2px;
+    width: 90%;
+
+    color: var(--white-color);
+    background-color: var(--ocean-blue-color);
+    border-radius: 5px;
+    font-size: var(--font-size-medium);
+}
+
+.reportTime {
+    margin-top: 20px;
+    color: var(--ocean-blue-color);
+    font-weight: bold;
+    font-size: 50px;
+}

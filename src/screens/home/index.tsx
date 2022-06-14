@@ -5,13 +5,19 @@ import {
     Theme,
     Typography,
 } from "@mui/material"
-import { CSSProperties, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import { RootState } from "src/store"
+import { useSelector, useDispatch} from "react-redux"
+import { storeDateRange } from "src/store/slice/dateRangeFilter.slice"
 import Loading from "src/components/Loading"
 import Constants from "src/constants"
 import HomeService from "src/services/home.service"
 import DateRangePicker from "src/components/DateRangePicker"
+import Helpers from "src/commons/helpers"
+import Strings from "src/constants/strings"
+import styles from "src/styles/Home.module.css"
 
-const boxStyle: SxProps<Theme> = {
+const muiBoxStyle: SxProps<Theme> = {
     position: "relative",
     width: 240,
     height: 220,
@@ -25,36 +31,12 @@ const boxStyle: SxProps<Theme> = {
     borderRadius: Constants.Styles.BOX_BORDER_RADIUS,
 };
 
-const reportTimeHeaderStyle: CSSProperties = {
-    position: "absolute",
-    top: 0,
-    marginTop: 14,
-    padding: "4px 2px",
-    width: "90%",
-
-    color: Constants.Styles.WHITE_COLOR,
-    backgroundColor: Constants.Styles.OCEAN_BLUE_COLOR,
-    borderRadius: 5,
-
-    fontWeight: "bold",
-    fontSize: Constants.Styles.FONT_SIZE_MEDIUM
-}
-
-const reportTimeStyle: CSSProperties = {
-    marginTop: 20,
-    color: Constants.Styles.OCEAN_BLUE_COLOR,
-    fontWeight: "bold",
-    fontSize: 50,
-}
-
 const homeService = new HomeService()
 const HomeScreen = () => {
-    const dateNow = new Date();
-    const firstDay = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
-    const lastDay = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 0);
-
-    const startDate = firstDay.getTime() / 1000;
-    const endDate = lastDay.getTime() / 1000;
+    const dispatch = useDispatch();
+    const initialDateRange = useSelector((state: RootState) => state.reportDateRange)
+    const startDate = initialDateRange.startDate || Helpers.firstDayOfMonthUnixTime()
+    const endDate = initialDateRange.endDate || Helpers.lastDayOfMonthUnixTime()
 
     const [isLoading, setIsLoading] = useState(false)
     const [totalReportTime, setTotalReportTime] = useState<{
@@ -63,25 +45,10 @@ const HomeScreen = () => {
     }>({})
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (startDate && endDate) {
-                setIsLoading(true)
-                try {
-                    const data = await homeService.getUserReportTotalTime(startDate, endDate)
-                    setTotalReportTime({
-                        totalActualTime: parseInt(data.totalActualTime || 0),
-                        totalAbsenceTime: parseInt(data.totalAbsenceTime || 0)
-                    })
-                } catch (error) {
-                    console.log(error)
-                }
-                setIsLoading(false)
-            }
-        }
-        fetchData()
+        filterReportTotalTime(startDate, endDate);
     }, [])
 
-    const handleApplyDateRange = async (startDate: number, endDate: number) => {
+    const filterReportTotalTime = async (startDate: number, endDate: number) => {
         setIsLoading(true)
         try {
             const data = await homeService.getUserReportTotalTime(startDate, endDate)
@@ -89,6 +56,7 @@ const HomeScreen = () => {
                 totalActualTime: parseInt(data.totalActualTime || 0),
                 totalAbsenceTime: parseInt(data.totalAbsenceTime || 0)
             })
+            dispatch(storeDateRange({ startDate, endDate }));
         } catch (error) {
             console.log(error)
         }
@@ -97,13 +65,13 @@ const HomeScreen = () => {
 
     return (
         <Grid
-            container spacing={2} className="mt-3 mb-5"
-            display="flex" justifyContent="center" alignItems="center"
+            container className="my-4"
+            display="flex" justifyContent="center"
         >   
             <DateRangePicker
                 startDate={startDate}
                 endDate={endDate}
-                onApplyDateRange={handleApplyDateRange}
+                onApplyDateRange={filterReportTotalTime}
             />
             
             <Grid
@@ -111,15 +79,15 @@ const HomeScreen = () => {
                 className="mt-3 w-100" display="flex" justifyContent="center" alignItems="center"
             >
                 <Grid item>
-                    <Box sx={boxStyle}>
+                    <Box sx={muiBoxStyle}>
                         <Typography
                             textAlign="center"
-                            style={reportTimeHeaderStyle}
+                            className={styles.reportTimeHeader}
                         >
-                            Tổng giờ số công
+                            {Strings.TimeCard.CURRENT_TOTAL}
                         </Typography>
 
-                        <Typography textAlign="center" component="span" style={reportTimeStyle}>
+                        <Typography textAlign="center" component="span" className={styles.reportTime}>
                             {isLoading ? (
                                 <Loading color={Constants.Styles.OCEAN_BLUE_COLOR} />
                             ) : (
@@ -130,15 +98,15 @@ const HomeScreen = () => {
                 </Grid>
                 
                 <Grid item>
-                    <Box sx={boxStyle}>
+                    <Box sx={muiBoxStyle}>
                         <Typography
                             textAlign="center"
-                            style={reportTimeHeaderStyle}
+                            className={styles.reportTimeHeader}
                         >
-                            Tổng giờ số vắng
+                            {Strings.Absence.ABSENCE_TOTAL_TIME}
                         </Typography>
 
-                        <Typography textAlign="center" component="span" style={reportTimeStyle}>
+                        <Typography textAlign="center" component="span" className={styles.reportTime}>
                             {isLoading ? (
                                 <Loading color={Constants.Styles.OCEAN_BLUE_COLOR} />
                             ) : (

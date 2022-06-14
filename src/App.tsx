@@ -1,4 +1,5 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import "src/styles/utilities.css";
+import "src/styles/globals.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomeScreen from "./screens/home";
 import LoginScreen from "./screens/login";

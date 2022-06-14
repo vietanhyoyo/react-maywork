@@ -21,7 +21,7 @@ import Helpers from "src/commons/helpers"
 import Resources from "src/commons/resources"
 import Strings from "src/constants/strings"
 
-const drawerWidth = 260;
+const drawerWidth = 250;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,

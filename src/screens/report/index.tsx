@@ -15,7 +15,7 @@ import {
     DeleteRounded as DeleteRoundedIcon,
     EditRounded as EditRoundedIcon,
 } from "@mui/icons-material"
-import { CSSProperties, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { createSearchParams, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { storeDateRange } from "src/store/slice/dateRangeFilter.slice"
@@ -28,17 +28,7 @@ import UserReportService from "src/services/user-report.service"
 import Strings from "src/constants/strings"
 import Screens from "src/constants/screens"
 import { IUserReport } from "src/commons/interfaces"
-
-const tableHeadStyle: CSSProperties = {
-    fontWeight: "bold",
-    fontSize: Constants.Styles.FONT_SIZE_MEDIUM,
-    backgroundColor: Constants.Styles.OCEAN_BLUE_COLOR,
-    color: Constants.Styles.WHITE_COLOR,
-}
-
-const tableCellStyle: CSSProperties = {
-    fontSize: Constants.Styles.FONT_SIZE_DEFAULT,
-}
+import styles from "src/styles/Report.module.css"
 
 const userReportService = new UserReportService();
 const ReportScreen = () => {
@@ -83,7 +73,7 @@ const ReportScreen = () => {
 
     return (
         <Grid
-            container className="px-2 mt-3 my-5"
+            container className="my-4"
             display="flex" justifyContent="center"
         >
             <DateRangePicker
@@ -95,27 +85,27 @@ const ReportScreen = () => {
             {isLoading ? (
                 <Loading color={Constants.Styles.OCEAN_BLUE_COLOR} />
             ) : (
-                <TableContainer sx={{ boxShadow: Constants.Styles.BOX_SHADOW }} className="mt-4" component={Paper}>
+                <TableContainer sx={{ boxShadow: Constants.Styles.BOX_SHADOW }} className="px-2 mt-4" component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow style={{ height: 46 }}>
-                                <TableCell style={{ ...tableHeadStyle, width: "2%" }}>
+                                <TableCell className={styles.tableHead} style={{ width: "2%" }}>
                                     #
                                 </TableCell>
 
-                                <TableCell style={{ ...tableHeadStyle, width: "18%" }}>
+                                <TableCell className={styles.tableHead} style={{ width: "18%" }}>
                                     {Strings.Report.WORKING_DATE}
                                 </TableCell>
 
-                                <TableCell style={{ ...tableHeadStyle, width: "12%" }}>
+                                <TableCell className={styles.tableHead} style={{ width: "12%" }}>
                                     {Strings.Report.WORKING_HOUR}
                                 </TableCell>
 
-                                <TableCell style={{ ...tableHeadStyle, width: "54%" }}>
+                                <TableCell className={styles.tableHead} style={{ width: "54%" }}>
                                     {Strings.Common.NOTE}
                                 </TableCell>
 
-                                <TableCell style={{ ...tableHeadStyle, width: "14%" }}>
+                                <TableCell className={styles.tableHead} style={{ width: "14%" }} align="right">
                                     {Strings.Common.ACTION}
                                 </TableCell>
                             </TableRow>
@@ -150,35 +140,38 @@ const ReportScreen = () => {
                                     return (
                                         <TableRow
                                             key={userReport.id || index}
+                                            hover={true}
                                             sx={{
-                                                borderStyle: "solid",
+                                                "& .MuiTableRow-hover": {
+                                                    backgroundColor: Constants.Styles.LIGHT_GRAY_COLOR,
+                                                },
                                                 borderBottomWidth: 1,
                                                 borderBottomColor: Constants.Styles.LIGHT_GRAY_COLOR,
                                                 "&:last-child td, &:last-child th": { border: 0 }
                                             }}
                                         >
-                                            <TableCell style={tableCellStyle}>
+                                            <TableCell className={styles.tableCell}>
                                                 {index}
                                             </TableCell>
 
-                                            <TableCell style={tableCellStyle}>
+                                            <TableCell className={styles.tableCell}>
                                                 {`${dayName}, ${day}`}
                                             </TableCell>
 
-                                            <TableCell style={tableCellStyle} align="center">
-                                                <Typography className="w-100">
-                                                    {start}
-                                                </Typography>
-                                                <Typography className="w-100">
-                                                    {end}
-                                                </Typography>
+                                            <TableCell className={styles.tableCell} align="center">
+                                                <div>{start}</div>
+                                                <div>{end}</div>
                                             </TableCell>
 
-                                            <TableCell style={tableCellStyle}>
-                                                {Helpers.stringToHTML(userReport.description || "")}
+                                            <TableCell className={styles.tableCell}>
+                                                {userReport.description?.includes("\n") ? (
+                                                    userReport.description.split("\n").map(str => <p className="my-1">{str}</p>)
+                                                ) : (
+                                                    userReport.description
+                                                )}
                                             </TableCell>
 
-                                            <TableCell style={tableCellStyle} align="right">
+                                            <TableCell align="right">
                                                 <Tooltip title={<span style={tooltipStyle}>{Strings.Common.EDIT}</span>}>
                                                     <IconButton onClick={() => {
                                                         if (userReport.id) {

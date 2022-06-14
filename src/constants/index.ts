@@ -48,7 +48,7 @@ const Constants = {
         OCEAN_BLUE_COLOR: "#174291",
         LIGHT_BLUE_COLOR: "#12B7BC",
         GRAY_COLOR: "#808080",
-        LIGHT_GRAY_COLOR: "#f9fafb",
+        LIGHT_GRAY_COLOR: "#e5e7eb",
         GREEN_COLOR: "#008000",
         RED_COLOR: "#dc2626",
         WHITE_COLOR: "#FFFFFF",
@@ -93,7 +93,6 @@ const Constants = {
         FONT_SIZE_XLARGE: 27,
         FONT_SIZE_XXLARGE: 31,
 
-        CARD_BORDER_RADIUS: 3,
         BOX_BORDER_RADIUS: 6,
         BOX_SHADOW: 3,
     },

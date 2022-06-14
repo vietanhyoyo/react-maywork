@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { FilterAlt } from "@mui/icons-material"
+import { FilterAlt, EastRounded } from "@mui/icons-material"
 import { Button, Grid, Typography } from "@mui/material"
 import DatePicker from "../DatePicker"
 import Constants from "src/constants"
@@ -43,15 +43,15 @@ const DateRangePicker = (props: IProps) => {
 
     const handleApplyDateRange = () => {
         if (Helpers.isNullOrEmpty(startDate)) {
-            Helpers.showAlert(`Vui lòng nhập "${startDateLabel}"`);
+            Helpers.showAlert(`Vui lòng nhập "${startDateLabel}"`, "warning");
         }
 
         if (Helpers.isNullOrEmpty(endDate)) {
-            Helpers.showAlert(`Vui lòng nhập "${endDateLabel}"`);
+            Helpers.showAlert(`Vui lòng nhập "${endDateLabel}"`, "warning");
         }
 
         if (startDate && endDate && startDate > endDate) {
-            Helpers.showAlert("Ngày tháng năm không hợp lệ");
+            Helpers.showAlert("Ngày tháng năm không hợp lệ", "warning");
         }
 
         if (startDate && endDate && startDate <= endDate) {
@@ -68,7 +68,10 @@ const DateRangePicker = (props: IProps) => {
                 container item xs={10} md={10} spacing={2}
                 display="flex" justifyContent="center" alignItems="center"
             >
-                <Grid item>
+                <Grid
+                    item md={5} xs={12}
+                    display="flex" justifyContent={{ xs: "center", md: "end" }} alignItems="center"
+                >
                     <DatePicker
                         label={startDateLabel}
                         defaultValue={startDate || undefined}
@@ -76,7 +79,17 @@ const DateRangePicker = (props: IProps) => {
                     />
                 </Grid>
 
-                <Grid item>
+                <Grid
+                    item md={1} xs={12} padding={0}
+                    display="flex" justifyContent="center" alignItems="center"
+                >
+                    <EastRounded style={{ color: Constants.Styles.OCEAN_BLUE_COLOR }} />
+                </Grid>
+
+                <Grid
+                    item md={5} xs={12}
+                    display="flex" justifyContent={{ xs: "center", md: "start" }} alignItems="center"
+                >
                     <DatePicker
                         label={endDateLabel}
                         defaultValue={endDate || undefined}
