@@ -1,4 +1,5 @@
 import BaseService from "./base.service"
+import Constants from "src/constants"
 
 class AccountService extends BaseService {
     public updateProfile = async (id: string, email: string, phoneNumber: string, token: string): Promise<any> => {
@@ -8,7 +9,7 @@ class AccountService extends BaseService {
                 email,
                 phoneNumber
             },
-            path: "/user/update",
+            path: Constants.ApiPath.UPDATE_ACCOUNT,
             headers: {
                 "x-access-token": token
             }
@@ -22,7 +23,7 @@ class AccountService extends BaseService {
                 oldPassword,
                 newPassword
             },
-            path: "auth/changePass",
+            path: Constants.ApiPath.UPDATE_PASSWORD,
             headers: {
                 "x-access-token": token
             }

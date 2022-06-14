@@ -24,7 +24,7 @@ const Constants = {
     ApiPath: {
         SIGNIN: "/auth/signin",
         UPDATE_ACCOUNT: "/user/update",
-        UPDATE_PASSWORD: "/auth/changePass"
+        UPDATE_PASSWORD: "/auth/changePass",
     },
 
     /**
