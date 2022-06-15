@@ -1,6 +1,9 @@
-import moment from "moment";
+import moment from "moment"
 import Swal from "sweetalert2"
+import parse from "html-react-parser"
 import Constants from "src/constants"
+import Strings from "src/constants/strings"
+import Screens from "src/constants/screens"
 
 /**
  * Helpers.ts
@@ -144,6 +147,36 @@ const Helpers = {
         return 0;
     },
 
+    firstDayOfMonthUnixTime: (date?: Date): number => {
+        let dateNow = new Date();
+        if (!Helpers.isNullOrEmpty(date)) {
+            dateNow = date;
+        }
+
+        const firstDay = new Date(
+            dateNow.getFullYear(),
+            dateNow.getMonth(),
+            1
+        ).getTime() / 1000;
+
+        return firstDay;
+    },
+
+    lastDayOfMonthUnixTime: (date?: Date): number => {
+        let dateNow = new Date();
+        if (!Helpers.isNullOrEmpty(date)) {
+            dateNow = date;
+        }
+
+        const lastDay = new Date(
+            dateNow.getFullYear(),
+            dateNow.getMonth() + 1,
+            0
+        ).getTime() / 1000;
+
+        return lastDay;
+    },
+
     fromNow: (date: number | Date): string => {
         return moment(date).fromNow();
     },
@@ -241,6 +274,9 @@ const Helpers = {
     showAlert: async (message: string, type?: "warning" | "success" | "error" | "info" | "question", okCallback?: any) => {
         const msg = message
         const okPress = await Swal.fire({
+            customClass: {
+                container: "custom-sweetalert2"
+            },
             text: msg,
             icon: type,
             confirmButtonColor: "#13CBD2"
@@ -260,6 +296,9 @@ const Helpers = {
     showConfirmAlert: async (message: string, okCallback: any, cancelCallback?: any) => {
         const msg = message;
         const okPress = await Swal.fire({
+            customClass: {
+                container: "custom-sweetalert2"
+            },
             text: msg,
             icon: "warning",
             confirmButtonColor: "#13CBD2",
@@ -273,6 +312,36 @@ const Helpers = {
                 cancelCallback()
             }
         }
+    },
+
+    getTitle: (pathName: string) => {
+        let title = "";
+        const screens = [
+            {
+                name: Strings.Common.HOME,
+                path: Screens.HOME,
+            },
+            {
+                name: Strings.Report.TITLE,
+                path: Screens.REPORT,
+            },
+            {
+                name: Strings.Absence.TITLE,
+                path: Screens.ABSENSE,
+            },
+            {
+                name: Strings.Account.TITLE,
+                path: Screens.ACCOUNT,
+            },
+        ]
+        
+        screens.forEach((screen) => {
+            if (pathName.includes(screen.path)) {
+                title = screen.name;
+            }
+        })
+        
+        return title;
     },
 
     getBase64: (file: Blob, callback: (result: any) => void) => {
@@ -353,6 +422,56 @@ const Helpers = {
     formatDate: (value?: string | Date | number, format?: string): string => {
         const result = value ? moment(value).local().format(format || "DD/MM/YYYY") : "";
         return result;
+    },
+
+    formatDateName: (date: Date | number): string => {
+        let name = "";
+        try {
+            if (typeof Intl === "undefined") {
+                require("intl")
+                require("intl/locale-data/jsonp/vi")
+            }
+            const options: Intl.DateTimeFormatOptions = { weekday: "long" };
+            name = new Intl.DateTimeFormat("vi-VN", options).format(date);
+        } catch (error) {
+            console.log("formatDateName", error);
+        }
+        return name;
+    },
+
+    formatTime: (date?: Date | number): string => {
+        console.log("Date", date);
+        let h = "";
+        let m = "";
+        let s = "";
+        if (date) {
+            if (Helpers.isNumber(date)) {
+                h = "" + new Date(date).getHours();
+                m = "" + new Date(date).getMinutes();
+                s = "" + new Date(date).getSeconds();
+            }
+            else {
+                h = "" + date.getHours();
+                m = "" + date.getMinutes();
+                s = "" + date.getSeconds();
+            }
+            if (h.length < 2) {
+                h = "0" + h;
+            }
+            if (m.length < 2) {
+                m = "0" + m;
+            }
+            if (s.length < 2) {
+                s = "0" + s;
+            }
+            // return h + ":" + m + ":" + s;
+            return h + ":" + m;
+        }
+        return "";
+    },
+
+    stringToHTML: (text: string) => {
+        return parse(text);
     },
 };
 

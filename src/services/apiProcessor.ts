@@ -333,7 +333,7 @@ class APIProcessor {
         if (accessToken) {
             axiosConfig.headers = {
                 ...axiosConfig.headers,
-                ["Authorization"]: accessToken
+                ["x-access-token"]: accessToken
             };
         }
 

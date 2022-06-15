@@ -1,7 +1,7 @@
 import APIAccessor from "./apiProcessor"
 
 class BaseService {
-    public readonly api = APIAccessor
+    protected readonly api = APIAccessor
 }
 
 export default BaseService

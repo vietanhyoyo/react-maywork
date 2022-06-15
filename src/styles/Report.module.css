@@ -1,0 +1,9 @@
+.tableHead {
+    font-weight: bold;
+    font-size: var(--font-size-medium);
+    color: var(--black-color);
+}
+
+.tableCell {
+    font-size: var(--font-size-default);
+}

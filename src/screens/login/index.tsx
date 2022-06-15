@@ -2,58 +2,57 @@ import { useState } from "react"
 import { Grid, Button, CircularProgress } from "@mui/material"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router"
-
 import { IUserInfo } from "src/commons/interfaces"
 import { storeUserInfo } from "src/store/slice/userInfo.slice"
 import APIProcessor from "src/services/apiProcessor"
 import Constants from "src/constants"
 import Helpers from "src/commons/helpers"
-import Logo from "src/assets/logo.png"
+import Resources from "src/commons/resources"
 import Screens from "src/constants/screens"
 import TextInput from "src/components/TextInput"
+import Strings from "src/constants/strings"
 
 interface SignInData {
-    account?: string,
-    password?: string,
-    errorAccount?: string,
-    errorPassword?: string
+    account?: string;
+    password?: string;
+    errorAccount?: string;
+    errorPassword?: string;
 }
 
 const LoginScreen = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(false)
-    const [signInData, setSignInData] = useState<SignInData>({})
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [signInData, setSignInData] = useState<SignInData>({});
     const updateSigninData = (newState: SignInData) => {
         setSignInData((prevState) => ({
             ...prevState,
-            ...newState
-        }))
-    }
+            ...newState,
+        }));
+    };
 
     const onChangeAccount = (value: string) => {
-        updateSigninData({ account: value })
-    }
+        updateSigninData({ account: value });
+    };
 
     const onChangePassword = (value: string) => {
-        updateSigninData({ password: value })
-    }
+        updateSigninData({ password: value });
+    };
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        setIsLoading(true)
-        updateSigninData({ errorAccount: undefined, errorPassword: undefined })
+        setIsLoading(true);
+        updateSigninData({ errorAccount: undefined, errorPassword: undefined });
         try {
-            event.preventDefault()
+            event.preventDefault();
             const result = await APIProcessor.post({
                 path: Constants.ApiPath.SIGNIN,
                 data: {
                     account: signInData.account,
-                    password: signInData.password
-                }
-            })
+                    password: signInData.password,
+                },
+            });
 
             if (result.data && result.data.accessToken) {
-                sessionStorage.setItem(Constants.StorageKeys.ACCESS_TOKEN, result.data.accessToken)
                 const userInfo: IUserInfo = {
                     id: result.data.id,
                     userName: result.data.userName,
@@ -61,7 +60,15 @@ const LoginScreen = () => {
                     phoneNumber: result.data.phoneNumber,
                     roleCode: result.data.roleCode
                 }
-                sessionStorage.setItem(Constants.StorageKeys.USER_INFO, JSON.stringify(userInfo))
+                
+                sessionStorage.setItem(
+                    Constants.StorageKeys.USER_INFO,
+                    Helpers.ensureString(userInfo)
+                );
+                sessionStorage.setItem(
+                    Constants.StorageKeys.ACCESS_TOKEN,
+                    result.data.accessToken
+                )
                 dispatch(storeUserInfo(userInfo))
                 navigate(Screens.HOME)
             }
@@ -74,10 +81,14 @@ const LoginScreen = () => {
                 updateSigninData({ errorPassword: error.message })
             }
             else {
-                Helpers.showAlert("Đã xảy ra lỗi, vui lòng thử lại")
+                Helpers.showAlert(Strings.Message.COMMON_ERROR, "error")
             }
         }
-        setIsLoading(false)
+        setIsLoading(false);
+    };
+
+    const onClickForgotPassword = () =>{
+        navigate(Screens.FORGOT_PASSWORD);
     }
 
     return (
@@ -86,7 +97,7 @@ const LoginScreen = () => {
                 <form onSubmit={onSubmit} className="d-flex flex-column justify-content-center align-items-center">
                     <img
                         style={{ width: "50%", height: "50%" }}
-                        src={Logo}
+                        src={Resources.Images.APP_LOGO}
                         alt="logo"
                     />
 
@@ -95,8 +106,8 @@ const LoginScreen = () => {
                         containerClassName="mt-4"
                         errorMessage={signInData.errorAccount}
                         onChangeValue={onChangeAccount}
-                        placeholder="Tên đăng nhập/Email"
-                        label="Tên đăng nhập/Email"
+                        placeholder={Strings.Auth.USER_NAME + "/" + Strings.Auth.EMAIL}
+                        label={Strings.Auth.USER_NAME + "/" + Strings.Auth.EMAIL}
                         isOutline
                     />
 
@@ -106,8 +117,8 @@ const LoginScreen = () => {
                         errorMessage={signInData.errorPassword}
                         onChangeValue={onChangePassword}
                         secure
-                        placeholder="Mật khẩu"
-                        label="Mật khẩu"
+                        placeholder={Strings.Auth.PASSWORD}
+                        label={Strings.Auth.PASSWORD}
                         isOutline
                     />
 
@@ -125,15 +136,16 @@ const LoginScreen = () => {
                                 color="inherit"
                             />
                         )}
-                        <span>Đăng nhập</span>
+                        <span>{Strings.Auth.SIGN_IN}</span>
                     </Button>
 
                     <Button
                         variant="text"
                         className="mt-2 w-100"
                         style={{ fontWeight: "bold", textTransform: "none" }}
+                        onClick={onClickForgotPassword}
                     >
-                        Quên mật khẩu
+                        {Strings.Auth.FORGOT_PASSWORD}
                     </Button>
                 </form>
             </Grid>
@@ -141,4 +153,4 @@ const LoginScreen = () => {
     )
 }
 
-export default LoginScreen
+export default LoginScreen;

@@ -15,6 +15,7 @@ import { RootState } from "src/store";
 import { IUserInfo } from "src/commons/interfaces";
 import TextInput from "src/components/TextInput"
 import AccountService from "src/services/account.service";
+import Helpers from "src/commons/helpers";
 
 const mdTheme = createTheme({
     palette: {
@@ -29,17 +30,19 @@ const accountService = new AccountService()
 const UpdateAccountScreen = () => {
     //get redux
     const userRedux = useSelector((state: RootState) => state.userInfo.value);
-    
+
     //get user storage
     let userStorage: IUserInfo;
     const session = sessionStorage.getItem(Constants.StorageKeys.USER_INFO);
-    if (session !== null) userStorage = JSON.parse(session); 
-    //get access token
-    const accessToken = sessionStorage.getItem(Constants.StorageKeys.ACCESS_TOKEN);
-    
+    if (session !== null) {
+        userStorage = JSON.parse(session);
+    }
+
     //account state
     const [account, setAccount] = React.useState(() => {
-        if (session !== null) userStorage = JSON.parse(session);
+        if (session !== null) {
+            userStorage = JSON.parse(session);
+        }
         return {
             id: userStorage.id || userRedux.id || "",
             email: userStorage.email || userRedux.email || "",
@@ -86,18 +89,27 @@ const UpdateAccountScreen = () => {
     //check repassword
     const blurRePassword = () => {
         if (password.new !== "") {
-            if (password.new !== password.reNew)
+            if (password.new !== password.reNew) {
                 setError((prev: any) => ({ ...prev, rePassword: "Mật khẩu nhập lại không khớp!" }))
+            }
         }
     }
 
     //validate password
     const validatePassword = () => {
         let check = true;
-        if (password.old === "") check = false;
-        if (password.new === "") check = false;
-        if (password.reNew === "") check = false;
-        if (error.rePassword !== "") check = false;
+        if (password.old === "") {
+            check = false;
+        }
+        if (password.new === "") {
+            check = false;
+        }
+        if (password.reNew === "") {
+            check = false;
+        }
+        if (error.rePassword !== "") {
+            check = false;
+        }
         if (password.new !== password.reNew) {
             setError((prev: any) => ({ ...prev, rePassword: "Mật khẩu nhập lại không khớp!" }))
             check = false;
@@ -112,18 +124,17 @@ const UpdateAccountScreen = () => {
                 const result = await accountService.updatePassword(
                     account.id,
                     password.old,
-                    password.new,
-                    String(accessToken)
+                    password.new
                 )
                 alert(result.message)
                 setPassword({ old: "", new: "", reNew: "" })
 
                 console.log(result)
             } catch (error) {
-                alert("Thay đổi mật khẩu thất bại!")
+                Helpers.showAlert("Thay đổi mật khẩu thất bại!", "error")
             }
         }
-        else alert("Đổi thất bại!");
+        else Helpers.showAlert("Đổi thất bại!", "error");
     }
 
     //submit infomation email and phoneNumber
@@ -135,8 +146,7 @@ const UpdateAccountScreen = () => {
                 const result = await accountService.updateProfile(
                     account.id,
                     account.email,
-                    account.phoneNumber,
-                    String(accessToken)
+                    account.phoneNumber
                 )
                 alert("Thay đổi thành công!");
                 const userInfo: IUserInfo = {
@@ -146,13 +156,12 @@ const UpdateAccountScreen = () => {
                 }
                 //save in session
                 sessionStorage.setItem(Constants.StorageKeys.USER_INFO, JSON.stringify(userInfo))
-                console.log(result)
             } catch (error) {
                 console.log(error)
             }
         }
         else {
-            alert("Thay đối thất bại!");
+            Helpers.showAlert("Thay đối thất bại!", "error");
         }
     }
 
